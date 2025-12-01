@@ -22,7 +22,11 @@ namespace Iktraktar
             while (running)
             {
                 Console.WriteLine("\n--- Raktárkezelő ---");
-                Console.WriteLine("1. Termékek listázása");
+                Console.WriteLine("1 - Keresés ID alapján");
+                Console.WriteLine("2 - Keresés név részlet alapján");
+                Console.WriteLine("3 - Teljes lista formázott megjelenítése");
+                Console.WriteLine("4 - Készlet növelése");
+                Console.WriteLine("5 - Készlet csökkentése");
                 Console.WriteLine("6. Rendelés létrehozása termékekből (csak elérhető)");
                 Console.WriteLine("7. Rendelés összegzése, kiírás fájlba");
                 Console.WriteLine("8. Rendelés feldolgozása");
@@ -34,7 +38,44 @@ namespace Iktraktar
                 switch (choice)
                 {
                     case "1":
-                        storage.PrintAllProducts();
+                        Console.WriteLine("Termék ID: ");
+                        int searchId = int.Parse(Console.ReadLine());
+
+                        var foundItem = storage.FindById(searchId);
+                        if (foundItem != null)
+                        {
+                            Console.WriteLine("ID: " + foundItem.Id);
+                            Console.WriteLine("Név: " + foundItem.Name);
+                            Console.WriteLine("Mennyiség: " + foundItem.Quantity);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nincs termék ilyen ID-vel!");
+                        }
+                        break;
+
+                    case "2":
+                        Console.WriteLine("Név: ");
+                        break;
+
+                    case "4":
+                        Console.Write("Termék ID: ");
+                        int incId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel növeljem?: ");
+                        int incAmount = int.Parse(Console.ReadLine());
+
+                        IncreaseQuantity(storage, incId, incAmount);
+                        break;
+
+                    case "5":
+                        Console.Write("Termék ID: ");
+                        int decId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel csökkentsem?: ");
+                        int decAmount = int.Parse(Console.ReadLine());
+
+                        DecreaseQuantity(storage, decId, decAmount);
                         break;
 
                     case "6":
@@ -134,6 +175,49 @@ namespace Iktraktar
             }
 
             Console.WriteLine("\nÖsszes rendelés feldolgozva.");
+        }
+        static void IncreaseQuantity(Storage storage, int id, int amount)
+        {
+            var product = storage.FindById(id);
+
+            if (product == null)
+            {
+                Console.WriteLine("Nincs ilyen termék!");
+                return;
+            }
+
+            product.Quantity += amount;
+            Console.WriteLine($"#{product.Id} {product.Name} új mennyiség: {product.Quantity}");
+        }
+
+        static void DecreaseQuantity(Storage storage, int id, int amount)
+        {
+            var product = storage.FindById(id);
+
+            if (product == null)
+            {
+                Console.WriteLine("Nincs ilyen termék!");
+                return;
+            }
+
+            if (product.Quantity < amount)
+            {
+                Console.WriteLine("Nincs elég készlet!");
+                return;
+            }
+
+            product.Quantity -= amount;
+            Console.WriteLine($"#{product.Id} {product.Name} új mennyiség: {product.Quantity}");
+        }
+
+        public static void PrintTable(IEnumerable<Product> products)
+        {
+            Console.WriteLine("ID | Név     | Készlet");
+            Console.WriteLine("------------------------");
+            foreach (var p in products)
+            {
+                Console.WriteLine($"{p.Id}  | {p.Name,-7} | {p.Quantity}");
+            }
         }
     }
 }

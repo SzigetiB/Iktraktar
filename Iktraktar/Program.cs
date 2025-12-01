@@ -18,18 +18,19 @@ namespace Iktraktar
             storage.Add(new Product(3, "Füzet", 80));
 
             bool running = true;
+            string filePath = "raktar.csv";
 
             while (running)
             {
                 Console.WriteLine("\n--- Raktárkezelő ---");
-                Console.WriteLine("1 - Keresés ID alapján");
-                Console.WriteLine("2 - Keresés név részlet alapján");
-                Console.WriteLine("3 - Teljes lista formázott megjelenítése");
+                Console.WriteLine("1. Termékek listázása");
                 Console.WriteLine("4 - Készlet növelése");
                 Console.WriteLine("5 - Készlet csökkentése");
                 Console.WriteLine("6. Rendelés létrehozása termékekből (csak elérhető)");
                 Console.WriteLine("7. Rendelés összegzése, kiírás fájlba");
                 Console.WriteLine("8. Rendelés feldolgozása");
+                Console.WriteLine("9 - Raktár betöltése CSV-ből");
+                Console.WriteLine("10 - Raktár mentése CSV-be");
                 Console.WriteLine("0. Kilépés");
                 Console.Write("Válassz menüpontot: ");
 
@@ -78,6 +79,26 @@ namespace Iktraktar
                         DecreaseQuantity(storage, decId, decAmount);
                         break;
 
+                    case "4":
+                        Console.Write("Termék ID: ");
+                        int incId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel növeljem?: ");
+                        int incAmount = int.Parse(Console.ReadLine());
+
+                        IncreaseQuantity(storage, incId, incAmount);
+                        break;
+
+                    case "5":
+                        Console.Write("Termék ID: ");
+                        int decId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel csökkentsem?: ");
+                        int decAmount = int.Parse(Console.ReadLine());
+
+                        DecreaseQuantity(storage, decId, decAmount);
+                        break;
+
                     case "6":
                         CreateOrderFromAvailable(storage);
                         break;
@@ -89,6 +110,17 @@ namespace Iktraktar
                     case "8":
                         ProcessOrders(storage);
                         break;
+
+                    case "9":
+                        storage.Load(filePath);
+                        Console.WriteLine($"\nRaktár betöltve: {filePath}");
+                        break;
+
+                    case "10":
+                        storage.Save(filePath);
+                        Console.WriteLine($"\nRaktár mentve: {filePath}");
+                        break;
+
 
                     case "0":
                         running = false;
@@ -208,16 +240,6 @@ namespace Iktraktar
 
             product.Quantity -= amount;
             Console.WriteLine($"#{product.Id} {product.Name} új mennyiség: {product.Quantity}");
-        }
-
-        public static void PrintTable(IEnumerable<Product> products)
-        {
-            Console.WriteLine("ID | Név     | Készlet");
-            Console.WriteLine("------------------------");
-            foreach (var p in products)
-            {
-                Console.WriteLine($"{p.Id}  | {p.Name,-7} | {p.Quantity}");
-            }
         }
     }
 }

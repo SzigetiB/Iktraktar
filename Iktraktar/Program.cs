@@ -18,6 +18,7 @@ namespace Iktraktar
             storage.Add(new Product(3, "Füzet", 80));
 
             bool running = true;
+            string filePath = "raktar.csv";
 
             while (running)
             {
@@ -26,6 +27,8 @@ namespace Iktraktar
                 Console.WriteLine("6. Rendelés létrehozása termékekből (csak elérhető)");
                 Console.WriteLine("7. Rendelés összegzése, kiírás fájlba");
                 Console.WriteLine("8. Rendelés feldolgozása");
+                Console.WriteLine("9 - Raktár betöltése CSV-ből");
+                Console.WriteLine("10 - Raktár mentése CSV-be");
                 Console.WriteLine("0. Kilépés");
                 Console.Write("Válassz menüpontot: ");
 
@@ -48,6 +51,17 @@ namespace Iktraktar
                     case "8":
                         ProcessOrders(storage);
                         break;
+
+                    case "9":
+                        storage.Load(filePath);
+                        Console.WriteLine($"\nRaktár betöltve: {filePath}");
+                        break;
+
+                    case "10":
+                        storage.Save(filePath);
+                        Console.WriteLine($"\nRaktár mentve: {filePath}");
+                        break;
+
 
                     case "0":
                         running = false;

@@ -24,6 +24,8 @@ namespace Iktraktar
             {
                 Console.WriteLine("\n--- Raktárkezelő ---");
                 Console.WriteLine("1. Termékek listázása");
+                Console.WriteLine("4 - Készlet növelése");
+                Console.WriteLine("5 - Készlet csökkentése");
                 Console.WriteLine("6. Rendelés létrehozása termékekből (csak elérhető)");
                 Console.WriteLine("7. Rendelés összegzése, kiírás fájlba");
                 Console.WriteLine("8. Rendelés feldolgozása");
@@ -38,6 +40,26 @@ namespace Iktraktar
                 {
                     case "1":
                         storage.PrintAllProducts();
+                        break;
+
+                    case "4":
+                        Console.Write("Termék ID: ");
+                        int incId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel növeljem?: ");
+                        int incAmount = int.Parse(Console.ReadLine());
+
+                        IncreaseQuantity(storage, incId, incAmount);
+                        break;
+
+                    case "5":
+                        Console.Write("Termék ID: ");
+                        int decId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel csökkentsem?: ");
+                        int decAmount = int.Parse(Console.ReadLine());
+
+                        DecreaseQuantity(storage, decId, decAmount);
                         break;
 
                     case "6":
@@ -148,6 +170,39 @@ namespace Iktraktar
             }
 
             Console.WriteLine("\nÖsszes rendelés feldolgozva.");
+        }
+        static void IncreaseQuantity(Storage storage, int id, int amount)
+        {
+            var product = storage.FindById(id);
+
+            if (product == null)
+            {
+                Console.WriteLine("Nincs ilyen termék!");
+                return;
+            }
+
+            product.Quantity += amount;
+            Console.WriteLine($"#{product.Id} {product.Name} új mennyiség: {product.Quantity}");
+        }
+
+        static void DecreaseQuantity(Storage storage, int id, int amount)
+        {
+            var product = storage.FindById(id);
+
+            if (product == null)
+            {
+                Console.WriteLine("Nincs ilyen termék!");
+                return;
+            }
+
+            if (product.Quantity < amount)
+            {
+                Console.WriteLine("Nincs elég készlet!");
+                return;
+            }
+
+            product.Quantity -= amount;
+            Console.WriteLine($"#{product.Id} {product.Name} új mennyiség: {product.Quantity}");
         }
     }
 }

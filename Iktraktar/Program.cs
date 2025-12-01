@@ -39,7 +39,44 @@ namespace Iktraktar
                 switch (choice)
                 {
                     case "1":
-                        storage.PrintAllProducts();
+                        Console.WriteLine("Termék ID: ");
+                        int searchId = int.Parse(Console.ReadLine());
+
+                        var foundItem = storage.FindById(searchId);
+                        if (foundItem != null)
+                        {
+                            Console.WriteLine("ID: " + foundItem.Id);
+                            Console.WriteLine("Név: " + foundItem.Name);
+                            Console.WriteLine("Mennyiség: " + foundItem.Quantity);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nincs termék ilyen ID-vel!");
+                        }
+                        break;
+
+                    case "2":
+                        Console.WriteLine("Név: ");
+                        break;
+
+                    case "4":
+                        Console.Write("Termék ID: ");
+                        int incId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel növeljem?: ");
+                        int incAmount = int.Parse(Console.ReadLine());
+
+                        IncreaseQuantity(storage, incId, incAmount);
+                        break;
+
+                    case "5":
+                        Console.Write("Termék ID: ");
+                        int decId = int.Parse(Console.ReadLine());
+
+                        Console.Write("Mennyivel csökkentsem?: ");
+                        int decAmount = int.Parse(Console.ReadLine());
+
+                        DecreaseQuantity(storage, decId, decAmount);
                         break;
 
                     case "4":

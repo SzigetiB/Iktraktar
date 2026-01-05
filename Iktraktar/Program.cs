@@ -56,7 +56,43 @@ namespace Iktraktar
                         break;
 
                     case "2":
-                        Console.WriteLine("Név: ");
+                        Console.Write("Add meg az ID-t: ");
+                        string idInput = Console.ReadLine()!;
+                        if (int.TryParse(idInput, out int id))
+                        {
+                            var productById = storage.FindById(id);
+                            if (productById != null)
+                            {
+                                Console.WriteLine($"Talált termék: #{productById.Id} {productById.Name} ({productById.Quantity} db)");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nincs ilyen termék azonosítóval.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Érvénytelen ID formátum.");
+                        }
+                        break;
+
+                    case "3":
+                        Console.Write("Add meg a név részletet: ");
+                        string namePart = Console.ReadLine()!;
+                        var results = storage.FindAll(namePart);
+                        if (results.Any())
+                        {
+                            Console.WriteLine("Talált termékek:");
+                            foreach (var p in results)
+                            {
+                                Console.WriteLine($"#{p.Id} {p.Name} ({p.Quantity} db)");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nincs ilyen termék név részlettel.");
+                        }
+
                         break;
 
                     case "4":

@@ -79,26 +79,6 @@ namespace Iktraktar
                         DecreaseQuantity(storage, decId, decAmount);
                         break;
 
-                    case "4":
-                        Console.Write("Termék ID: ");
-                        int incId = int.Parse(Console.ReadLine());
-
-                        Console.Write("Mennyivel növeljem?: ");
-                        int incAmount = int.Parse(Console.ReadLine());
-
-                        IncreaseQuantity(storage, incId, incAmount);
-                        break;
-
-                    case "5":
-                        Console.Write("Termék ID: ");
-                        int decId = int.Parse(Console.ReadLine());
-
-                        Console.Write("Mennyivel csökkentsem?: ");
-                        int decAmount = int.Parse(Console.ReadLine());
-
-                        DecreaseQuantity(storage, decId, decAmount);
-                        break;
-
                     case "6":
                         CreateOrderFromAvailable(storage);
                         break;

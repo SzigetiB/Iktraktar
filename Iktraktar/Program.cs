@@ -24,6 +24,8 @@ namespace Iktraktar
             {
                 Console.WriteLine("\n--- Raktárkezelő ---");
                 Console.WriteLine("1. Termékek listázása");
+                Console.WriteLine("2 - Keresés ID alapján");
+                Console.WriteLine("3 - Keresés név részlet alapján");
                 Console.WriteLine("4 - Készlet növelése");
                 Console.WriteLine("5 - Készlet csökkentése");
                 Console.WriteLine("6. Rendelés létrehozása termékekből (csak elérhető)");

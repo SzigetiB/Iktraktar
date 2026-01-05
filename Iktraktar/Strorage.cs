@@ -38,6 +38,31 @@ namespace Iktraktar.Models
             }
             return searchedProducts;
         }
+        public void IncreaseQuantity(int id, int amount)
+        {
+            Product? product = FindById(id);
+            if (product != null)
+            {
+                product.Quantity += amount;
+            }
+            else
+            {
+                Console.WriteLine("Nincs ilyen termék azonosítóval.");
+            }
+        }
+
+        public void DecreaseQuantity(int id, int amount)
+        {
+            Product? product = FindById(id);
+            if (product != null)
+            {
+                product.Quantity += amount;
+            }
+            else
+            {
+                Console.WriteLine("Nincs ilyen termék azonosítóval.");
+            }
+        }
 
         public int GetQuantity(Product product)
         {
